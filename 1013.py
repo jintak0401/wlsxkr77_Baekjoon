@@ -8,7 +8,7 @@ regex = re.compile('(100+1+|01)+')
 
 def solve(pattern: str):
     result = regex.fullmatch(pattern)
-    return 'YES\n' if result else 'NO\n'
+    return 'YES' if result else 'NO'
 
 
 if __name__ == '__main__':
