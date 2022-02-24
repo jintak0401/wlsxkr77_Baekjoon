@@ -43,15 +43,15 @@ def solve(n):
     ans = 0
 
     # 왼쪽 아래 대각선과 오른쪽 아래 대각선, 두 그룹에 대해 이분매칭 진행
-    connected_vertex = [0] + [0] * len(white_diag)
+    connected_vertex = [0] * len(white_diag)
     for i in range(1, len(white_diag)):
-        visited = [False] + [False] * len(white_diag)
+        visited = [False] * len(white_diag)
         if bipartite_matching(white_diag, i):
             ans += 1
 
-    connected_vertex = [0] + [0] * len(black_diag)
+    connected_vertex = [0] * len(black_diag)
     for i in range(1, len(black_diag)):
-        visited = [False] + [False] * len(black_diag)
+        visited = [False] * len(black_diag)
         if bipartite_matching(black_diag, i):
             ans += 1
 
