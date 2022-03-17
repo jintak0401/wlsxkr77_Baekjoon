@@ -2,77 +2,54 @@ from sys import stdin
 
 input = stdin.readline
 
-tree = []
-arr = []
-quiz = []
-
-
-# start, end: 트리 내 범위
-def init_tree(start, end, node):
-    global tree
-    if start == end:
-        tree[node] = arr[start]
-        return tree[node]
-
-    mid = (start + end) // 2
-    tree[node] = init_tree(start, mid, 2 * node) + init_tree(mid + 1, end, 2 * node + 1)
-    return tree[node]
-
-
-# start, end: 트리 내 범위
-# left, right: 구하고자 하는 합의 범위
-def get_sum(start, end, node, left, right):
-    # 범위 밖
-    if right < start or end < left:
-        return 0
-
-    elif left <= start and end <= right:
-        return tree[node]
-
-    mid = (start + end) // 2
-
-    return get_sum(start, mid, 2 * node, left, right) + get_sum(mid + 1, end, 2 * node + 1, left, right)
-
-
-# target: 바꿀 노드
-# start, end: 트리 내 범위
-def update_tree(start, end, node, target, diff):
-    global tree
-
-    tree[node] += diff
-
-    if start == end:
-        return
-
-    mid = (start + end) // 2
-
-    if start <= target <= mid:
-        update_tree(start, mid, 2 * node, target, diff)
-    else:
-        update_tree(mid + 1, end, 2 * node + 1, target, diff)
-
 
 def solve():
-    global tree, arr
-
-    tree = [0] * (N * 4)
-    init_tree(0, N - 1, 1)
-
-    for i in range(Q):
-        left, right, change_idx, change_val = quiz[i]
-        print(get_sum(0, N - 1, 1, left, right))
-        diff = change_val - arr[change_idx]
-        arr[change_idx] = change_val
-        update_tree(0, N - 1, 1, change_idx, diff)
-
-
-if __name__ == '__main__':
     N, Q = map(int, input().split())
-    arr = list(map(int, input().split()))
+    arr = [*map(int, input().split())]
+
+    def init_tree():
+        # 리프 노드를 입력 받은 수열로 할당
+        tree = [0] * N + arr
+        for i in range(N - 1, 0, -1):
+            tree[i] = tree[i << 1] + tree[i << 1 | 1]
+
+        return tree
+
+    # [start, end) 범위의 합을 구한다
+    def query(start, end):
+        ret = 0
+        start += N
+        end += N
+        # 리프노드부터 더해나간다
+        while start < end:
+            if start & 1:
+                ret += tree[start]
+                start += 1
+            if end & 1:
+                end -= 1
+                ret += tree[end]
+            start >>= 1
+            end >>= 1
+
+        return ret
+
+    def update(idx, val):
+        idx += N
+        # 리프 노드 수정 후
+        tree[idx] = val
+        # 부모노드를 자식 노드를 이용해 수정해준다
+        while idx > 1:
+            tree[idx >> 1] = tree[idx] + tree[idx ^ 1]
+            idx >>= 1
+
+    tree = init_tree()
     for _ in range(Q):
         x, y, a, b = map(int, input().split())
         if x > y:
             x, y = y, x
-        quiz.append((x - 1, y - 1, a - 1, b))
+        print(query(x - 1, y))
+        update(a - 1, b)
 
+
+if __name__ == '__main__':
     solve()
