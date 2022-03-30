@@ -4,6 +4,7 @@ input = stdin.readline
 
 
 def solve(arr):
+
     arr.append(0)
     stack = [-1]
     ans = 0
@@ -11,7 +12,9 @@ def solve(arr):
         while stack and arr[stack[-1]] > arr[i]:
             height = arr[stack.pop()]
             width = i - stack[-1] - 1
-            ans = max(ans, width * height)
+            area = width * height
+            if ans < area:
+                ans = area
         stack.append(i)
     return ans
 
