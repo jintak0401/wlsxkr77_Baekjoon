@@ -32,30 +32,31 @@ def solve():
             if ox == N_ and oy == M_:
                 return ans
 
-            for dx, dy in d:
-                x = ox + dx
-                y = oy + dy
-                if 0 <= x < N and 0 <= y < M:
-                    if crack < crack_count[x][y]:
-                        # 다음 칸이 빈칸인 경우
-                        # 낮이든 밤이든 상관없다
-                        if arr[x][y] == '0':
-                            crack_count[x][y] = crack
-                            que.append((x, y, crack))
+            elif crack == crack_count[ox][oy]:
+                for dx, dy in d:
+                    x = ox + dx
+                    y = oy + dy
+                    if 0 <= x < N and 0 <= y < M:
+                        if crack < crack_count[x][y]:
+                            # 다음 칸이 빈칸인 경우
+                            # 낮이든 밤이든 상관없다
+                            if arr[x][y] == '0':
+                                crack_count[x][y] = crack
+                                que.append((x, y, crack))
 
-                        # 다음 칸이 벽인 경우
-                        else:
-                            if crack + 1 >= crack_count[x][y]:
-                                continue
-
-                            # 낮인 경우만 벽을 부술 수 있다
-                            elif ans & 1:
-                                crack_count[x][y] = crack + 1
-                                que.append((x, y, crack + 1))
-
-                            # 밤인 경우 제자리에 머무른다
+                            # 다음 칸이 벽인 경우
                             else:
-                                que.append((ox, oy, crack))
+                                if crack + 1 >= crack_count[x][y]:
+                                    continue
+
+                                # 낮인 경우만 벽을 부술 수 있다
+                                elif ans & 1:
+                                    crack_count[x][y] = crack + 1
+                                    que.append((x, y, crack + 1))
+
+                                # 밤인 경우 제자리에 머무른다
+                                else:
+                                    que.append((ox, oy, crack))
 
         ans += 1
 
