@@ -13,18 +13,16 @@ def solve():
     if N == K:
         return 0
 
-    bound = int((-1 + (1 - 8 * (K - 500_000)) ** 0.5) / 2)
-    max_pos = K + (bound * (bound + 1)) // 2
-    ans = 1
-    visited = [[0] * (max_pos + 1) for _ in range(2)]
+    visited = [[0] * 500_001 for _ in range(2)]
     que = [N]
-    for i in range(1, bound + 1):
-        K += i
+    K += 1
+    ans, i = 1, 2
+    while K <= 500_000:
         new_que = []
         is_odd = i & 1
         for pos in que:
             for p in [pos - 1, pos + 1, 2 * pos]:
-                if 0 <= p <= max_pos and not visited[is_odd][p]:
+                if 0 <= p <= 500_000 and not visited[is_odd][p]:
                     visited[is_odd][p] = ans
                     new_que.append(p)
 
@@ -34,6 +32,8 @@ def solve():
             return ans
 
         ans += 1
+        K += i
+        i += 1
 
     return -1
 
