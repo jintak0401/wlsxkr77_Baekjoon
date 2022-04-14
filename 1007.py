@@ -8,9 +8,10 @@ input = stdin.readline
 
 
 def solve():
-    T = int(input())
+    TC = int(input())
+    inf = float('inf')
     x, y = [0] * 20, [0] * 20
-    ans, tx, ty = 1e9, 0, 0
+    ans, tx, ty = inf, 0, 0
 
     def combi(cnt, idx, sx, sy):
         nonlocal ans
@@ -23,9 +24,9 @@ def solve():
             for i in range(idx, N - cnt + 1):
                 combi(cnt-1, i+1, sx+x[i], sy+y[i])
 
-    for t in range(T):
+    for _ in range(TC):
         N = int(input())
-        ans, tx, ty = 1e9, 0, 0
+        ans, tx, ty = inf, 0, 0
         for i in range(N):
             x[i], y[i] = map(int, input().split())
             tx += x[i]
