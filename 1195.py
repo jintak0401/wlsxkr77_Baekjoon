@@ -25,9 +25,9 @@ def solve():
     for i in range(len(arr) - 1, 0, -1):
         flag1, flag2, idx = True, True, -i
         for j in range(i):
-            if flag1 and arr[idx] == '2' and brr[j] == '2':
+            if arr[idx] == '2' and brr[j] == '2':
                 flag1 = False
-            if flag2 and arr[j] == '2' and brr[idx] == '2':
+            if arr[j] == '2' and brr[idx] == '2':
                 flag2 = False
             if not flag1 and not flag2:
                 break
