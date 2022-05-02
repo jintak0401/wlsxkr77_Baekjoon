@@ -15,19 +15,18 @@ function solve() {
 		else return b[1] - a[1];
 	});
 
-	const maxDate = Math.max(...Array.from({ length: N }, (v, i) => work[i][0]));
-	const doing = Array(maxDate).fill(0);
-	let day = 0,
-		ans = 0;
+	const done = Array(1000).fill(false);
+	let ans = 0;
 
 	for (const [d, w] of work) {
-		for (day = d - 1; day >= 0 && doing[day] !== 0; day--);
-		if (day >= 0) {
-			doing[day] = w;
-			ans += w;
+		for (let day = d - 1; day >= 0; day--) {
+			if (!done[day]) {
+				ans += w;
+				done[day] = true;
+				break;
+			}
 		}
 	}
-
 	console.log(ans);
 }
 
