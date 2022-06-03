@@ -10,17 +10,11 @@ def solve():
     w1, w2 = [0], [0]
 
     for w in arr[:N // 2]:
-        tmp = []
-        for x in w1:
-            if (val := x + w) <= C:
-                tmp.append(val)
+        tmp = [weight for x in w1 if (weight := x + w) <= C]
         w1 += tmp
 
     for w in arr[N // 2:]:
-        tmp = []
-        for x in w2:
-            if (val := x + w) <= C:
-                tmp.append(val)
+        tmp = [weight for x in w2 if (weight := x + w) <= C]
         w2 += tmp
 
     w1.sort()
