@@ -15,13 +15,10 @@ function solve() {
 
 	const power = [];
 	power.length = N;
-	power[0] = 0n;
-	power[1] = 2n;
-	for (let i = 2; i < N; i++) {
+	power[0] = 1n;
+	for (let i = 1; i < N; i++) {
 		power[i] = (2n * power[i - 1]) % MOD;
-		power[i - 1] -= 1n;
 	}
-	power[N - 1] -= 1n;
 
 	let tmp,
 		ans = 0n;
